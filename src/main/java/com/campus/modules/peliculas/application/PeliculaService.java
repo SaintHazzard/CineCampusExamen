@@ -9,9 +9,9 @@ public class PeliculaService {
 
   private PeliculaMySQLRepository peliculaMySQLRepository;
 
-  private String url = "jdbc:mysql://127.0.0.1:3306/CampusCine";
-  private String user = "campus2023";
-  private String password = "campus2023";
+  String url = "jdbc:mysql://localhost:3306/cinecampus";
+  String user = "root";
+  String password = "123456";
 
   public PeliculaService() {
     this.peliculaMySQLRepository = new PeliculaMySQLRepository(url, user, password);

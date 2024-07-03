@@ -33,6 +33,7 @@ public class PeliculaConsoleAdapter {
     System.out.println("4. Listar peliculas");
     System.out.println("5. Agregar actor a pelicula");
     System.out.println("6. Agregar formato a pelicula");
+    System.out.println("7. Informacion detallada pelicula por ID");
     System.out.println("0. Salir");
     System.out.println("Opcion: ");
     int opcion = scanner.nextInt();
@@ -55,11 +56,29 @@ public class PeliculaConsoleAdapter {
       case 6:
         agregarFormatoAPelicula(scanner);
         break;
+      case 7:
+        detailPelicula(scanner);
       case 0:
         return;
       default:
         System.out.println("Opcion no valida");
         break;
+    }
+  }
+
+  private void detailPelicula(Scanner scanner) {
+    List<Pelicula> peliculas = peliculaService.findAllPeliculas();
+    for (Pelicula peli : peliculas) {
+      System.out.println(peli);
+    }
+    System.out.println("Indique ID de la pelicula que desea ver: ");
+    int idPelicula = scanner.nextInt();
+    Pelicula pelicula = peliculaService.getPeliculaById(idPelicula);
+    System.out.println("Formatos: ");
+    for (PeliculaFormato peliFormato : peliculaFormatoService.findAllPeliculaFormatos()) {
+      if (peliFormato.getIdPelicula() == idPelicula) {
+        System.out.println(peliFormato);
+      }
     }
   }
 

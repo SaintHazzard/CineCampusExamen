@@ -11,12 +11,15 @@ import com.campus.modules.paises.adapter.in.PaisConsoleAdapter;
 import com.campus.modules.paises.adapter.out.PaisMySQLRepository;
 import com.campus.modules.paises.application.PaisService;
 import com.campus.modules.peliculas.adapter.in.PeliculaConsoleAdapter;
+import com.campus.modules.tipoactor.adapter.in.TipoActorConsoleAdapter;
+import com.campus.modules.tipoactor.adapter.out.TipoActorMySQLRepository;
+import com.campus.modules.tipoactor.application.TipoActorService;
 
 public class Main {
     public static void main(String[] args) {
-        String url = "jdbc:mysql://127.0.0.1:3306/CampusCine";
-        String user = "campus2023";
-        String password = "campus2023";
+        String url = "jdbc:mysql://localhost:3306/cinecampus";
+        String user = "root";
+        String password = "123456";
 
         System.out.println("--------------- MENU PRINCIPAL ---------------");
 
@@ -27,7 +30,7 @@ public class Main {
             System.out.println("4. Paises");
             System.out.println("5. Formato");
             System.out.println("6. ");
-            System.out.println("7. ");
+            System.out.println("7. Tipo de actor");
             System.out.println("8. ");
             System.out.println("0. Salir");
             System.out.println("");
@@ -63,7 +66,11 @@ public class Main {
 
                     break;
                 case 7:
-
+                    TipoActorMySQLRepository tipoActorMySQLRepository = new TipoActorMySQLRepository(url, user,
+                            password);
+                    TipoActorService tipoActorService = new TipoActorService(tipoActorMySQLRepository);
+                    TipoActorConsoleAdapter tipoActorConsoleAdapter = new TipoActorConsoleAdapter(tipoActorService);
+                    tipoActorConsoleAdapter.start();
                     break;
                 case 8:
 
