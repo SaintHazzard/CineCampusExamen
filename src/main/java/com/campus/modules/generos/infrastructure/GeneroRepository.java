@@ -6,7 +6,6 @@ import com.campus.modules.actores.domain.Actor;
 import com.campus.modules.generos.domain.Genero;
 
 public interface GeneroRepository {
-    
     void save(Genero genero);
     void delete(int id);
     void update(Genero genero);

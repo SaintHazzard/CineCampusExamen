@@ -7,7 +7,9 @@ import com.campus.modules.formatos.adapter.in.FormatoConsoleAdapter;
 import com.campus.modules.generos.adapter.in.GeneroConsoleAdapter;
 import com.campus.modules.generos.adapter.out.GeneroMySQLRepository;
 import com.campus.modules.generos.application.GeneroService;
-import com.campus.modules.peliculas.adapter.in.PeliculaConsoleAdapter;
+import com.campus.modules.paises.adapter.in.PaisConsoleAdapter;
+import com.campus.modules.paises.adapter.out.PaisMySQLRepository;
+import com.campus.modules.paises.application.PaisService;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,7 +23,7 @@ public class Main {
             System.out.println("1. Genero");
             System.out.println("2. ");
             System.out.println("3. Peliculas");
-            System.out.println("4. ");
+            System.out.println("4. Paises");
             System.out.println("5. Formato");
             System.out.println("6. ");
             System.out.println("7. ");
@@ -30,9 +32,7 @@ public class Main {
             System.out.println("");
             System.out.print("Ingrese la opcion: ");
             Scanner scanner = new Scanner(System.in);
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-
+            int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1:
                     GeneroMySQLRepository generoMySQLRepository = new GeneroMySQLRepository(url, user, password);
@@ -49,7 +49,10 @@ public class Main {
                     peliculaConsoleAdapter.start();
                     break;
                 case 4:
-
+                    PaisMySQLRepository paisMySQLRepository = new PaisMySQLRepository(url, user, password);
+                    PaisService PaisService = new PaisService(paisMySQLRepository);
+                    PaisConsoleAdapter PaisConsoleAdapter = new PaisConsoleAdapter(PaisService);
+                    PaisConsoleAdapter.start();
                     break;
                 case 5:
                     FormatoConsoleAdapter formatoConsoleAdapter = new FormatoConsoleAdapter();
