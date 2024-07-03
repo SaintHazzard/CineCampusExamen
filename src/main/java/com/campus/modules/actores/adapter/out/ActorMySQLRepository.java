@@ -27,7 +27,7 @@ public class ActorMySQLRepository implements ActorRepository {
   @Override
   public Actor save(Actor actor) {
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
-      String query = "INSERT INTO actores (nombre, edad, idGenero,idNacionalidad) VALUES (?, ?, ?, ?)";
+      String query = "INSERT INTO actor (nombre, edad, idGenero,idNacionalidad) VALUES (?, ?, ?, ?)";
       try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
         statement.setString(1, actor.getNombre());
         statement.setInt(2, actor.getEdad());
@@ -50,7 +50,7 @@ public class ActorMySQLRepository implements ActorRepository {
   @Override
   public void delete(Actor actor) {
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
-      String query = "DELETE FROM actores WHERE id = ?";
+      String query = "DELETE FROM actor WHERE id = ?";
       try (PreparedStatement statement = connection.prepareStatement(query)) {
         statement.setInt(1, actor.getId());
         statement.executeUpdate();
@@ -65,7 +65,7 @@ public class ActorMySQLRepository implements ActorRepository {
   @Override
   public Actor update(Actor actor) {
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
-      String query = "UPDATE actores SET nombre = ?, edad = ?, idGenero = ?, idNacionalidad = ? WHERE id = ?";
+      String query = "UPDATE actor SET nombre = ?, edad = ?, idGenero = ?, idNacionalidad = ? WHERE id = ?";
       try (PreparedStatement statement = connection.prepareStatement(query)) {
         statement.setString(1, actor.getNombre());
         statement.setInt(2, actor.getEdad());
@@ -85,7 +85,7 @@ public class ActorMySQLRepository implements ActorRepository {
   @Override
   public Actor findById(int id) {
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
-      String query = "SELECT * FROM actores WHERE id = ?";
+      String query = "SELECT * FROM actor WHERE id = ?";
       try (PreparedStatement statement = connection.prepareStatement(query)) {
         statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
@@ -111,7 +111,7 @@ public class ActorMySQLRepository implements ActorRepository {
   public List<Actor> findAll() {
     List<Actor> actores = new ArrayList<>();
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
-      String query = "SELECT * FROM actores";
+      String query = "SELECT * FROM actor";
       try (PreparedStatement statement = connection.prepareStatement(query)) {
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {

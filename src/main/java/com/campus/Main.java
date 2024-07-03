@@ -14,15 +14,15 @@ import com.campus.modules.peliculas.adapter.in.PeliculaConsoleAdapter;
 
 public class Main {
     public static void main(String[] args) {
-        String url = "";
-        String user = "";
-        String password = "";
+        String url = "jdbc:mysql://127.0.0.1:3306/CampusCine";
+        String user = "campus2023";
+        String password = "campus2023";
 
         System.out.println("--------------- MENU PRINCIPAL ---------------");
 
         while (true) {
             System.out.println("1. Genero");
-            System.out.println("2. ");
+            System.out.println("2. Actores");
             System.out.println("3. Peliculas");
             System.out.println("4. Paises");
             System.out.println("5. Formato");

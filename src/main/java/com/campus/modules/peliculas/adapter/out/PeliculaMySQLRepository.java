@@ -50,12 +50,13 @@ public class PeliculaMySQLRepository implements PeliculaRepository {
   @Override
   public Pelicula save(Pelicula pelicula) {
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
-      String query = "INSERT INTO peliculas (codInterno, nombre, duracion,sinopsis) VALUES (?, ?, ?, ?)";
-      try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+      String query = "INSERT INTO pelicula (codInterno, nombre, duracion,sinopsis) VALUES (?, ?, ?, ?)";
+      try (PreparedStatement statement = connection.prepareStatement(query)) {
         statement.setInt(1, pelicula.getCodInterno());
         statement.setString(2, pelicula.getNombre());
         statement.setString(3, pelicula.getDuracion());
         statement.setString(4, pelicula.getSinopsis());
+        statement.executeUpdate();
       } catch (SQLException e) {
         e.printStackTrace();
       }
@@ -69,7 +70,7 @@ public class PeliculaMySQLRepository implements PeliculaRepository {
   @Override
   public void delete(Pelicula pelicula) {
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
-      String query = "DELETE FROM peliculas WHERE id = ?";
+      String query = "DELETE FROM pelicula WHERE id = ?";
       try (PreparedStatement statement = connection.prepareStatement(query)) {
         statement.setInt(1, pelicula.getId());
         statement.executeUpdate();
@@ -84,7 +85,7 @@ public class PeliculaMySQLRepository implements PeliculaRepository {
   @Override
   public Pelicula update(Pelicula pelicula) {
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
-      String query = "UPDATE peliculas SET codInterno = ?, nombre = ?, duracion = ?, sinopsis = ? WHERE id = ?";
+      String query = "UPDATE pelicula SET codInterno = ?, nombre = ?, duracion = ?, sinopsis = ? WHERE id = ?";
       try (PreparedStatement statement = connection.prepareStatement(query)) {
         statement.setInt(1, pelicula.getCodInterno());
         statement.setString(2, pelicula.getNombre());
@@ -105,7 +106,7 @@ public class PeliculaMySQLRepository implements PeliculaRepository {
   public List<Pelicula> findAll() {
     List<Pelicula> peliculas = new ArrayList<>();
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
-      String query = "SELECT * FROM peliculas";
+      String query = "SELECT * FROM pelicula";
       try (PreparedStatement statement = connection.prepareStatement(query)) {
         statement.executeQuery();
         try (ResultSet resultSet = statement.getResultSet()) {

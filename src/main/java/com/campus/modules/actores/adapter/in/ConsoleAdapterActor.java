@@ -53,11 +53,12 @@ public class ConsoleAdapterActor {
   }
 
   private void saveActor() {
+    scanner.nextLine();
     System.out.println("Nombre del actor: ");
     String nombre = scanner.nextLine();
     System.out.println("Edad del actor: ");
     int edad = scanner.nextInt();
-    System.out.println("Genero del actor: ");
+    System.out.println("Id genero del actor: ");
     int idGenero = scanner.nextInt();
     System.out.println("Nacionalidad del actor: ");
     int idNacionalidad = scanner.nextInt();
