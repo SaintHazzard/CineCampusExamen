@@ -65,11 +65,15 @@ public class PeliculaConsoleAdapter {
 
   private void agregarFormatoAPelicula(Scanner scanner) {
     List<Formato> formatos = formatoService.findAllFormatos();
-    for (Formato format : formatos) {
-      System.out.println(format);
+    List<Pelicula> peliculas = peliculaService.findAllPeliculas();
+    for (Pelicula peli : peliculas) {
+      System.out.println(peli);
     }
     System.out.println("Indique ID de la pelicula a la que desea agregar un formato: ");
     int idPelicula = scanner.nextInt();
+    for (Formato format : formatos) {
+      System.out.println(format);
+    }
     System.out.println("Indique ID del formato que desea agregar: ");
     int idFormato = scanner.nextInt();
     System.out.println("Indique cantidad de copias: ");
