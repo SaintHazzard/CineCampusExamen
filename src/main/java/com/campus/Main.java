@@ -10,6 +10,7 @@ import com.campus.modules.generos.application.GeneroService;
 import com.campus.modules.paises.adapter.in.PaisConsoleAdapter;
 import com.campus.modules.paises.adapter.out.PaisMySQLRepository;
 import com.campus.modules.paises.application.PaisService;
+import com.campus.modules.peliculas.adapter.in.PeliculaConsoleAdapter;
 
 public class Main {
     public static void main(String[] args) {
