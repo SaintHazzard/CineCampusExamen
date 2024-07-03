@@ -9,8 +9,12 @@ public class ActorService {
 
   private ActorMySQLRepository actorMySQLRepository;
 
-  public ActorService(ActorMySQLRepository actorMySQLRepository) {
-    this.actorMySQLRepository = new ActorMySQLRepository(null, null, null);
+  private String url = "jdbc:mysql://127.0.0.1:3306/CampusCine";
+  private String user = "campus2023";
+  private String password = "campus2023";
+
+  public ActorService() {
+    this.actorMySQLRepository = new ActorMySQLRepository(url, user, password);
   }
 
   public void saveActor(Actor actor) {
@@ -25,7 +29,7 @@ public class ActorService {
     actorMySQLRepository.update(actor);
   }
 
-  public Actor findActorById(int id) {
+  public Actor getActorById(int id) {
     return actorMySQLRepository.findById(id);
   }
 

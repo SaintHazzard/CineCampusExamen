@@ -7,6 +7,24 @@ public class Actor {
   private int idGenero;
   private int idNacionalidad;
 
+  public Actor(String nombre2, int edad2, int idGenero, int idNacionalidad) {
+    this.nombre = nombre2;
+    this.edad = edad2;
+    this.idGenero = idGenero;
+    this.idNacionalidad = idNacionalidad;
+  }
+
+  public Actor(int id, String nombre, int edad, int idGenero, int idNacionalidad) {
+    this.id = id;
+    this.nombre = nombre;
+    this.edad = edad;
+    this.idGenero = idGenero;
+    this.idNacionalidad = idNacionalidad;
+  }
+
+  public Actor() {
+  }
+
   public int getId() {
     return id;
   }

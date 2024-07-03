@@ -2,9 +2,11 @@ package com.campus;
 
 import java.util.Scanner;
 
+import com.campus.modules.actores.adapter.in.ConsoleAdapterActor;
 import com.campus.modules.generos.adapter.in.GeneroConsoleAdapter;
 import com.campus.modules.generos.adapter.out.GeneroMySQLRepository;
 import com.campus.modules.generos.application.GeneroService;
+import com.campus.modules.peliculas.adapter.in.PeliculaConsoleAdapter;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,7 +19,7 @@ public class Main {
         while (true) {
             System.out.println("1. Genero");
             System.out.println("2. ");
-            System.out.println("3. ");
+            System.out.println("3. Peliculas");
             System.out.println("4. ");
             System.out.println("5. ");
             System.out.println("6. ");
@@ -38,25 +40,27 @@ public class Main {
                     generoConsoleAdapter.start();
                     break;
                 case 2:
-                  
+                    ConsoleAdapterActor consoleAdapterActor = new ConsoleAdapterActor();
+                    consoleAdapterActor.start();
                     break;
                 case 3:
-                   
+                    PeliculaConsoleAdapter peliculaConsoleAdapter = new PeliculaConsoleAdapter();
+                    peliculaConsoleAdapter.start();
                     break;
                 case 4:
-                 
+
                     break;
                 case 5:
-                   
+
                     break;
                 case 6:
-                    
+
                     break;
                 case 7:
-               
+
                     break;
                 case 8:
-                
+
                     break;
                 case 0:
                     scanner.close();
@@ -65,8 +69,7 @@ public class Main {
                 default:
                     System.out.println("Opcion invalida, intentelo de nuevo.");
 
-        
-                }
             }
+        }
     }
 }
