@@ -3,6 +3,7 @@ package com.campus;
 import java.util.Scanner;
 
 import com.campus.modules.actores.adapter.in.ConsoleAdapterActor;
+import com.campus.modules.formatos.adapter.in.FormatoConsoleAdapter;
 import com.campus.modules.generos.adapter.in.GeneroConsoleAdapter;
 import com.campus.modules.generos.adapter.out.GeneroMySQLRepository;
 import com.campus.modules.generos.application.GeneroService;
@@ -21,7 +22,7 @@ public class Main {
             System.out.println("2. ");
             System.out.println("3. Peliculas");
             System.out.println("4. ");
-            System.out.println("5. ");
+            System.out.println("5. Formato");
             System.out.println("6. ");
             System.out.println("7. ");
             System.out.println("8. ");
@@ -51,7 +52,8 @@ public class Main {
 
                     break;
                 case 5:
-
+                    FormatoConsoleAdapter formatoConsoleAdapter = new FormatoConsoleAdapter();
+                    formatoConsoleAdapter.start();
                     break;
                 case 6:
 

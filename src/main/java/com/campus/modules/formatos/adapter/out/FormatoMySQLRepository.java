@@ -1,4 +1,4 @@
-package com.campus.modules.formatos.adapter;
+package com.campus.modules.formatos.adapter.out;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import com.campus.modules.formatos.domain.Formato;
 import com.campus.modules.formatos.infraestructure.FormatoRepository;
@@ -65,4 +66,31 @@ public class FormatoMySQLRepository implements FormatoRepository {
     }
   }
 
+  @Override
+  public Formato findById(int idFormato) {
+    try (Connection connection = DriverManager.getConnection(url, user, password)) {
+      String query = "SELECT * FROM formatos WHERE id = ?";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setInt(1, idFormato);
+      ResultSet resultSet = statement.executeQuery();
+      if (resultSet.next()) {
+        return new Formato(resultSet.getInt("id"), resultSet.getString("descripcion"));
+      }
+      return null;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public List<Formato> findAll() {
+    try (Connection connection = DriverManager.getConnection(url, user, password)) {
+      String query = "SELECT * FROM formatos";
+      Statement statement = connection.createStatement();
+      ResultSet resultSet = statement.executeQuery(query);
+      return List.of(new Formato(resultSet.getInt("id"), resultSet.getString("descripcion")));
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

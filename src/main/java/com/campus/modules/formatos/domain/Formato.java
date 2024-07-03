@@ -10,6 +10,13 @@ public class Formato {
     this.descripcion = descripcion;
   }
 
+  public Formato(String descripcion) {
+    this.descripcion = descripcion;
+  }
+
+  public Formato() {
+  }
+
   public int getId() {
     return id;
   }
