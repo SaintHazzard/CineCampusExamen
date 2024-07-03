@@ -3,35 +3,36 @@ package com.campus.modules.peliculaProtagonista.application;
 import java.util.List;
 import java.util.Optional;
 
-import com.campus.modules.peliculaProtagonista.adapter.out.PeliculaProtagonistaMySQLRepository;
+
 import com.campus.modules.peliculaProtagonista.domain.PeliculaProtagonista;
+import com.campus.modules.peliculaProtagonista.infrastructure.PeliculaProtagonistaRepository;
 
 
 
 public class PeliculaProtagonistaService {
-    PeliculaProtagonistaMySQLRepository peliculaprotagonistaMySQLRepository;
+    PeliculaProtagonistaRepository peliculaprotagonistaRepository;
 
-    public PeliculaProtagonistaService(PeliculaProtagonistaMySQLRepository peliculaprotagonistaMySQLRepository) {
-        this.peliculaprotagonistaMySQLRepository = peliculaprotagonistaMySQLRepository;
+    public PeliculaProtagonistaService(PeliculaProtagonistaRepository peliculaprotagonistaRepository) {
+        this.peliculaprotagonistaRepository = peliculaprotagonistaRepository;
     }
 
     public void savePeliculaprotagonista(PeliculaProtagonista peliculaprotagonista){
-        peliculaprotagonistaMySQLRepository.save(peliculaprotagonista);
+        peliculaprotagonistaRepository.save(peliculaprotagonista);
     }
 
     public void deletePeliculaprotagonista(int idPelicula, int idProtagonista){
-        peliculaprotagonistaMySQLRepository.delete(idPelicula, idProtagonista);
+        peliculaprotagonistaRepository.delete(idPelicula, idProtagonista);
     }
 
     public void updatePeliculaprotagonista(PeliculaProtagonista peliculaprotagonista){
-        peliculaprotagonistaMySQLRepository.update(peliculaprotagonista);
+        peliculaprotagonistaRepository.update(peliculaprotagonista);
     }
     
     public Optional<PeliculaProtagonista> findByIdPeliculaprotagonista(int idPelicula, int idProtagonista){
-        return peliculaprotagonistaMySQLRepository.findById(idPelicula, idProtagonista);
+        return peliculaprotagonistaRepository.findById(idPelicula, idProtagonista);
     }
 
     public List<PeliculaProtagonista> findAllPeliculaprotagonista(){
-        return peliculaprotagonistaMySQLRepository.findAll();
+        return peliculaprotagonistaRepository.findAll();
     }
 }

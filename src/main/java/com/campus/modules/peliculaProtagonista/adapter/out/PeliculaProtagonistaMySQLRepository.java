@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.campus.modules.paises.domain.Pais;
 import com.campus.modules.peliculaProtagonista.domain.PeliculaProtagonista;
 import com.campus.modules.peliculaProtagonista.infrastructure.PeliculaProtagonistaRepository;
 

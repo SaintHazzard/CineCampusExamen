@@ -10,6 +10,9 @@ import com.campus.modules.generos.application.GeneroService;
 import com.campus.modules.paises.adapter.in.PaisConsoleAdapter;
 import com.campus.modules.paises.adapter.out.PaisMySQLRepository;
 import com.campus.modules.paises.application.PaisService;
+import com.campus.modules.peliculaProtagonista.adapter.in.PeliculaProtagonistaConsoleAdapter;
+import com.campus.modules.peliculaProtagonista.adapter.out.PeliculaProtagonistaMySQLRepository;
+import com.campus.modules.peliculaProtagonista.application.PeliculaProtagonistaService;
 import com.campus.modules.peliculas.adapter.in.PeliculaConsoleAdapter;
 import com.campus.modules.tipoactor.adapter.in.TipoActorConsoleAdapter;
 import com.campus.modules.tipoactor.adapter.out.TipoActorMySQLRepository;
@@ -29,7 +32,7 @@ public class Main {
             System.out.println("3. Peliculas");
             System.out.println("4. Paises");
             System.out.println("5. Formato");
-            System.out.println("6. ");
+            System.out.println("6. Pelicula Protagonista");
             System.out.println("7. Tipo de actor");
             System.out.println("8. ");
             System.out.println("0. Salir");
@@ -63,7 +66,10 @@ public class Main {
                     formatoConsoleAdapter.start();
                     break;
                 case 6:
-
+                    PeliculaProtagonistaMySQLRepository peliculaProtagonistaMySQLRepository = new PeliculaProtagonistaMySQLRepository(url, user, password);
+                    PeliculaProtagonistaService PeliculaProtagonistaService = new PeliculaProtagonistaService(peliculaProtagonistaMySQLRepository);
+                    PeliculaProtagonistaConsoleAdapter peliculaProtagonistaConsoleAdapter = new PeliculaProtagonistaConsoleAdapter(PeliculaProtagonistaService);
+                    peliculaProtagonistaConsoleAdapter.start();
                     break;
                 case 7:
                     TipoActorMySQLRepository tipoActorMySQLRepository = new TipoActorMySQLRepository(url, user,
