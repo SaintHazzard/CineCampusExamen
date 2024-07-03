@@ -35,7 +35,6 @@ public class PaisMySQLRepository implements PaisRepository {
         }
     }
 
-
     @Override
     public void delete(int id) {
         try (Connection connection = DriverManager.getConnection(url, user, password)) {
@@ -65,25 +64,25 @@ public class PaisMySQLRepository implements PaisRepository {
     }
 
     @Override
-    public Optional<Pais> findById(int id){
+    public Optional<Pais> findById(int id) {
         try (Connection connection = DriverManager.getConnection(url, user, password)) {
-            String query = "UPDATE pais SET descripcion = ? WHERE id = ?";
+            String query = "SELECT * FROM pais WHERE id = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
                         Pais pais = new Pais(
-                            resultSet.getInt("id"),
-                            resultSet.getString("descripcion")
-                        );
+                                resultSet.getInt("id"),
+                                resultSet.getString("descripcion"));
                         return Optional.of(pais);
                     }
-                    
+
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }return Optional.empty();
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -95,9 +94,8 @@ public class PaisMySQLRepository implements PaisRepository {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
                         Pais pais = new Pais(
-                            resultSet.getInt("id"),
-                            resultSet.getString("descripcion")
-                        );
+                                resultSet.getInt("id"),
+                                resultSet.getString("descripcion"));
                         paises.add(pais);
                     }
                     return paises;
@@ -107,5 +105,5 @@ public class PaisMySQLRepository implements PaisRepository {
             e.printStackTrace();
         }
         return new ArrayList<>();
-    }    
+    }
 }

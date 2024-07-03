@@ -11,6 +11,9 @@ public class PeliculaProtagonista {
         this.idTipoActor = idTipoActor;
     }
 
+    public PeliculaProtagonista() {
+    }
+
     public int getIdPelicula() {
         return idPelicula;
     }

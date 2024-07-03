@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,13 +26,14 @@ public class PeliculaMySQLRepository implements PeliculaRepository {
   @Override
   public Pelicula findById(int id) {
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
-      String query = "SELECT * FROM peliculas WHERE id = ?";
+      String query = "SELECT * FROM pelicula WHERE id = ?";
       try (PreparedStatement statement = connection.prepareStatement(query)) {
         statement.setInt(1, id);
         statement.executeQuery();
         try (ResultSet resultSet = statement.getResultSet()) {
           if (resultSet.next()) {
-            return new Pelicula(resultSet.getInt("id"), resultSet.getInt("codInterno"), resultSet.getString("nombre"),
+            return new Pelicula(resultSet.getInt("id"), resultSet.getString("codInterno"),
+                resultSet.getString("nombre"),
                 resultSet.getString("duracion"), resultSet.getString("sinopsis"));
           }
         } catch (SQLException e) {
@@ -52,7 +52,7 @@ public class PeliculaMySQLRepository implements PeliculaRepository {
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
       String query = "INSERT INTO pelicula (codInterno, nombre, duracion,sinopsis) VALUES (?, ?, ?, ?)";
       try (PreparedStatement statement = connection.prepareStatement(query)) {
-        statement.setInt(1, pelicula.getCodInterno());
+        statement.setString(1, pelicula.getCodInterno());
         statement.setString(2, pelicula.getNombre());
         statement.setString(3, pelicula.getDuracion());
         statement.setString(4, pelicula.getSinopsis());
@@ -87,7 +87,7 @@ public class PeliculaMySQLRepository implements PeliculaRepository {
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
       String query = "UPDATE pelicula SET codInterno = ?, nombre = ?, duracion = ?, sinopsis = ? WHERE id = ?";
       try (PreparedStatement statement = connection.prepareStatement(query)) {
-        statement.setInt(1, pelicula.getCodInterno());
+        statement.setString(1, pelicula.getCodInterno());
         statement.setString(2, pelicula.getNombre());
         statement.setString(3, pelicula.getDuracion());
         statement.setString(4, pelicula.getSinopsis());
@@ -111,10 +111,11 @@ public class PeliculaMySQLRepository implements PeliculaRepository {
         statement.executeQuery();
         try (ResultSet resultSet = statement.getResultSet()) {
           while (resultSet.next()) {
-            Pelicula pelicula = new Pelicula(resultSet.getInt("id"), resultSet.getInt("codInterno"),
+            Pelicula pelicula = new Pelicula(resultSet.getInt("id"), resultSet.getString("codInterno"),
                 resultSet.getString("nombre"), resultSet.getString("duracion"), resultSet.getString("sinopsis"));
             peliculas.add(pelicula);
           }
+          return peliculas;
         } catch (SQLException e) {
           e.printStackTrace();
         }

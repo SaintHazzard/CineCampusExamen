@@ -13,33 +13,43 @@ import com.campus.modules.paises.application.PaisService;
 import com.campus.modules.peliculaProtagonista.adapter.in.PeliculaProtagonistaConsoleAdapter;
 import com.campus.modules.peliculaProtagonista.adapter.out.PeliculaProtagonistaMySQLRepository;
 import com.campus.modules.peliculaProtagonista.application.PeliculaProtagonistaService;
+import com.campus.modules.peliculaProtagonista.adapter.in.PeliculaProtagonistaConsoleAdapter;
+import com.campus.modules.peliculaProtagonista.adapter.out.PeliculaProtagonistaMySQLRepository;
+import com.campus.modules.peliculaProtagonista.application.PeliculaProtagonistaService;
 import com.campus.modules.peliculas.adapter.in.PeliculaConsoleAdapter;
 import com.campus.modules.tipoactor.adapter.in.TipoActorConsoleAdapter;
 import com.campus.modules.tipoactor.adapter.out.TipoActorMySQLRepository;
 import com.campus.modules.tipoactor.application.TipoActorService;
+import com.campus.modules.tipoactor.infrastructure.TipoActorRepository;
 
 public class Main {
     public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/cinecampus";
-        String user = "root";
-        String password = "123456";
+        String url = ConfiguracionProyecto.URL();
+        String user = ConfiguracionProyecto.USER();
+        String password = ConfiguracionProyecto.PASSWORD();
 
         System.out.println("--------------- MENU PRINCIPAL ---------------");
 
         while (true) {
-            System.out.println("1. Genero");
-            System.out.println("2. Actores");
-            System.out.println("3. Peliculas");
-            System.out.println("4. Paises");
-            System.out.println("5. Formato");
+            int choice = -1;
+            System.out.println("1. Gestionar generos");
+            System.out.println("2. Gestionar actores");
+            System.out.println("3. Gestionar peliculas");
+            System.out.println("4. Gestionar paises");
+            System.out.println("5. Gestionar formatos");
             System.out.println("6. Pelicula Protagonista");
-            System.out.println("7. Tipo de actor");
+            System.out.println("7. Gestion Tipo de actor");
             System.out.println("8. ");
             System.out.println("0. Salir");
             System.out.println("");
             System.out.print("Ingrese la opcion: ");
             Scanner scanner = new Scanner(System.in);
-            int choice = Integer.parseInt(scanner.nextLine());
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Opcion invalida, intentelo de nuevo.");
+                continue;
+            }
             switch (choice) {
                 case 1:
                     GeneroMySQLRepository generoMySQLRepository = new GeneroMySQLRepository(url, user, password);
@@ -66,13 +76,16 @@ public class Main {
                     formatoConsoleAdapter.start();
                     break;
                 case 6:
-                    PeliculaProtagonistaMySQLRepository peliculaProtagonistaMySQLRepository = new PeliculaProtagonistaMySQLRepository(url, user, password);
-                    PeliculaProtagonistaService PeliculaProtagonistaService = new PeliculaProtagonistaService(peliculaProtagonistaMySQLRepository);
-                    PeliculaProtagonistaConsoleAdapter peliculaProtagonistaConsoleAdapter = new PeliculaProtagonistaConsoleAdapter(PeliculaProtagonistaService);
+                    PeliculaProtagonistaMySQLRepository peliculaProtagonistaMySQLRepository = new PeliculaProtagonistaMySQLRepository(
+                            url, user, password);
+                    PeliculaProtagonistaService PeliculaProtagonistaService = new PeliculaProtagonistaService(
+                            peliculaProtagonistaMySQLRepository);
+                    PeliculaProtagonistaConsoleAdapter peliculaProtagonistaConsoleAdapter = new PeliculaProtagonistaConsoleAdapter(
+                            PeliculaProtagonistaService);
                     peliculaProtagonistaConsoleAdapter.start();
                     break;
                 case 7:
-                    TipoActorMySQLRepository tipoActorMySQLRepository = new TipoActorMySQLRepository(url, user,
+                    TipoActorRepository tipoActorMySQLRepository = new TipoActorMySQLRepository(url, user,
                             password);
                     TipoActorService tipoActorService = new TipoActorService(tipoActorMySQLRepository);
                     TipoActorConsoleAdapter tipoActorConsoleAdapter = new TipoActorConsoleAdapter(tipoActorService);
@@ -89,6 +102,15 @@ public class Main {
                     System.out.println("Opcion invalida, intentelo de nuevo.");
 
             }
+        }
+    }
+
+    public static boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 }

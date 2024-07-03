@@ -3,33 +3,43 @@ package com.campus.modules.tipoactor.application;
 import java.util.List;
 import java.util.Optional;
 
+import com.campus.ConfiguracionProyecto;
 import com.campus.modules.tipoactor.adapter.out.TipoActorMySQLRepository;
 import com.campus.modules.tipoactor.domain.Tipoactor;
+import com.campus.modules.tipoactor.infrastructure.TipoActorRepository;
 
 public class TipoActorService {
-    TipoActorMySQLRepository tipoactorMySQLRepository;
+    TipoActorRepository tipoActorRepository;
 
-    public TipoActorService(TipoActorMySQLRepository tipoactorMySQLRepository) {
-        this.tipoactorMySQLRepository = tipoactorMySQLRepository;
+    private String url = ConfiguracionProyecto.URL();
+    private String user = ConfiguracionProyecto.USER();
+    private String password = ConfiguracionProyecto.PASSWORD();
+
+    public TipoActorService() {
+        this.tipoActorRepository = new TipoActorMySQLRepository(url, user, password);
     }
 
-    public void saveTipoactor(Tipoactor tipoactor){
-        tipoactorMySQLRepository.save(tipoactor);
+    public TipoActorService(TipoActorRepository tipoActorRepository) {
+        this.tipoActorRepository = tipoActorRepository;
     }
 
-    public void deleteTipoactor(int id){
-        tipoactorMySQLRepository.delete(id);
+    public void saveTipoactor(Tipoactor tipoactor) {
+        tipoActorRepository.save(tipoactor);
     }
 
-    public void updateTipoactor(Tipoactor tipoactor){
-        tipoactorMySQLRepository.update(tipoactor);
-    }
-    
-    public Optional<Tipoactor> findByIdTipoactor(int id){
-        return tipoactorMySQLRepository.findById(id);
+    public void deleteTipoactor(int id) {
+        tipoActorRepository.delete(id);
     }
 
-    public List<Tipoactor> findAllTipoactor(){
-        return tipoactorMySQLRepository.findAll();
+    public void updateTipoactor(Tipoactor tipoactor) {
+        tipoActorRepository.update(tipoactor);
+    }
+
+    public Optional<Tipoactor> getByTipoActorId(int id) {
+        return tipoActorRepository.findById(id);
+    }
+
+    public List<Tipoactor> findAllTipoactor() {
+        return tipoActorRepository.findAll();
     }
 }

@@ -12,7 +12,7 @@ import java.util.Optional;
 import com.campus.modules.generos.domain.Genero;
 import com.campus.modules.generos.infrastructure.GeneroRepository;
 
-public class GeneroMySQLRepository implements GeneroRepository{
+public class GeneroMySQLRepository implements GeneroRepository {
     private final String url;
     private final String user;
     private final String password;
@@ -35,7 +35,6 @@ public class GeneroMySQLRepository implements GeneroRepository{
             e.printStackTrace();
         }
     }
-
 
     @Override
     public void delete(int id) {
@@ -66,25 +65,25 @@ public class GeneroMySQLRepository implements GeneroRepository{
     }
 
     @Override
-    public Optional<Genero> findById(int id){
+    public Optional<Genero> findById(int id) {
         try (Connection connection = DriverManager.getConnection(url, user, password)) {
-            String query = "UPDATE genero SET descripcion = ? WHERE id = ?";
+            String query = "SELECT * FROM genero WHERE id = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
                         Genero genero = new Genero(
-                            resultSet.getInt("id"),
-                            resultSet.getString("descripcion")
-                        );
+                                resultSet.getInt("id"),
+                                resultSet.getString("descripcion"));
                         return Optional.of(genero);
                     }
-                    
+
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }return Optional.empty();
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -96,9 +95,8 @@ public class GeneroMySQLRepository implements GeneroRepository{
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
                         Genero genero = new Genero(
-                            resultSet.getInt("id"),
-                            resultSet.getString("descripcion")
-                        );
+                                resultSet.getInt("id"),
+                                resultSet.getString("descripcion"));
                         generos.add(genero);
                     }
                     return generos;

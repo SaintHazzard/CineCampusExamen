@@ -35,7 +35,7 @@ public class Formato {
 
   @Override
   public String toString() {
-    return "Formato [id=" + id + ", descripcion=" + descripcion + "]";
+    return "Formato id: " + id + ", descripcion: " + descripcion + "";
   }
 
 }

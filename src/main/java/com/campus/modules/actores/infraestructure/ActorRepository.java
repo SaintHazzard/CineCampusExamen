@@ -16,4 +16,6 @@ public interface ActorRepository {
 
   List<Actor> findAll();
 
+  Actor findByPeliculaId(int idPelicula);
+
 }

@@ -6,14 +6,12 @@ import java.util.Scanner;
 import com.campus.modules.tipoactor.application.TipoActorService;
 import com.campus.modules.tipoactor.domain.Tipoactor;
 
-
 public class TipoActorConsoleAdapter {
     private TipoActorService tipoactorService;
 
     public TipoActorConsoleAdapter(TipoActorService tipoactorService) {
         this.tipoactorService = tipoactorService;
     }
-
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
@@ -31,31 +29,35 @@ public class TipoActorConsoleAdapter {
                     break;
 
                 case 2:
-                    System.out.print("Ingrese  ID del tipoactor a actualizar: ");
+                    System.out.print("Ingrese  ID del tipo de actor a actualizar: ");
                     int updateId = Integer.parseInt(scanner.nextLine());
-                    Optional<Tipoactor> tipoactorEncontrado = tipoactorService.findByIdTipoactor(updateId);
+                    Optional<Tipoactor> tipoactorEncontrado = tipoactorService.getByTipoActorId(updateId);
                     tipoactorEncontrado.ifPresentOrElse(p -> {
-                        System.out.println("Ingrese la descripcion del tipoactor nueva");
+                        System.out.println("Ingrese la descripcion del tipo de actor nueva");
                         String newDescription = scanner.nextLine();
                         p.setDescripcion(newDescription);
                         tipoactorService.updateTipoactor(p);
-                    }, () -> System.out.println("tipoactor con el id " + updateId + "no encontrado"));
+                    }, () -> System.out.println("tipo de actor con el id " + updateId + "no encontrado"));
                     break;
 
                 case 3:
                     System.out.print("Ingrese el Id del Tipoactor a buscar: ");
                     int findId = Integer.parseInt(scanner.nextLine());
-                    Optional<Tipoactor> tipoactor1 = tipoactorService.findByIdTipoactor(findId);
+                    Optional<Tipoactor> tipoactor1 = tipoactorService.getByTipoActorId(findId);
                     tipoactor1.ifPresentOrElse(
-                        p -> System.out.println(p.toString()),
-                        () -> System.out.println("Tipoactor no encontrado")
-                    );
+                            p -> System.out.println(p.toString()),
+                            () -> System.out.println("Tipo de actor no encontrado"));
                     break;
 
                 case 4:
-                    System.out.print("Ingrese el Id del tipoactor a borrar: ");
-                    int deleteId = Integer.parseInt( scanner.nextLine());
+                    System.out.print("Ingrese el Id del tipo de actor a borrar: ");
+                    int deleteId = Integer.parseInt(scanner.nextLine());
+                    if (tipoactorService.getByTipoActorId(deleteId).isEmpty()) {
+                        System.out.println("Tipoactor no encontrado");
+                        break;
+                    }
                     tipoactorService.deleteTipoactor(deleteId);
+                    System.out.println("Tipo de actor eliminado");
                     break;
 
                 case 5:
@@ -74,12 +76,12 @@ public class TipoActorConsoleAdapter {
         }
     }
 
-    private int menu(Scanner scanner){
-        System.out.println("1. Save tipoactor");
-        System.out.println("2. Update tipoactor");
-        System.out.println("3. Find By ID Tipoactor");
-        System.out.println("4. Delete Tipoactor");
-        System.out.println("5. Find All Tipoactors");
+    private int menu(Scanner scanner) {
+        System.out.println("1. Guardar nuevo tipo de actor");
+        System.out.println("2. Actualizar Tipoactor");
+        System.out.println("3. Buscar tipo de actor por ID");
+        System.out.println("4. Eliminar Tipo de actor");
+        System.out.println("5. Listar todos los tipos de actores");
         System.out.println("0. Salir");
         System.out.println("");
         System.out.print("Ingrese la opcion: ");
@@ -88,7 +90,7 @@ public class TipoActorConsoleAdapter {
         while (choice < 0 || choice > 6) {
             try {
                 choice = Integer.parseInt(scanner.nextLine());
-                if (choice > 6) {                    
+                if (choice > 6) {
                     System.out.println("Ingrese una opcion valida (0 - 5).");
                 }
             } catch (Exception e) {
@@ -98,5 +100,4 @@ public class TipoActorConsoleAdapter {
         return choice;
     }
 
-    
 }

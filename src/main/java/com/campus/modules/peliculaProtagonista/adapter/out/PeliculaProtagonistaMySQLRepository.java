@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.campus.modules.paises.domain.Pais;
 import com.campus.modules.peliculaProtagonista.domain.PeliculaProtagonista;
 import com.campus.modules.peliculaProtagonista.infrastructure.PeliculaProtagonistaRepository;
 
@@ -25,7 +24,7 @@ public class PeliculaProtagonistaMySQLRepository implements PeliculaProtagonista
         this.password = password;
     }
 
-    @Override 
+    @Override
     public void save(PeliculaProtagonista peliculaProtagonista) {
         try (Connection connection = DriverManager.getConnection(url, user, password)) {
             String query = "INSERT INTO peliculaprotagonista (idPelicula, idProtagonista, idTipoActor) VALUES (?,?,?)";
@@ -34,7 +33,7 @@ public class PeliculaProtagonistaMySQLRepository implements PeliculaProtagonista
                 statement.setInt(2, peliculaProtagonista.getIdProtagonista());
                 statement.setInt(3, peliculaProtagonista.getIdTipoActor());
                 statement.executeUpdate();
-                
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,22 +81,22 @@ public class PeliculaProtagonistaMySQLRepository implements PeliculaProtagonista
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
                         PeliculaProtagonista peliculaProtagonista = new PeliculaProtagonista(
-                            resultSet.getInt("idPelicula"),
-                            resultSet.getInt("idProtagonista"),
-                            resultSet.getInt("idTipoActor")
-                        );
+                                resultSet.getInt("idPelicula"),
+                                resultSet.getInt("idProtagonista"),
+                                resultSet.getInt("idTipoActor"));
                         return Optional.of(peliculaProtagonista);
                     }
-                    
+
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }return Optional.empty(); 
+        }
+        return Optional.empty();
     }
 
     @Override
-    public List<PeliculaProtagonista> findAll(){
+    public List<PeliculaProtagonista> findAll() {
         List<PeliculaProtagonista> peliculasProtagonistas = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(url, user, password)) {
             String query = "SELECT * FROM peliculaprotagonista";
@@ -105,26 +104,45 @@ public class PeliculaProtagonistaMySQLRepository implements PeliculaProtagonista
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
                         PeliculaProtagonista peliculaProtagonista = new PeliculaProtagonista(
-                            resultSet.getInt("idPelicula"),
-                            resultSet.getInt("idProtagonista"),
-                            resultSet.getInt("idTipoActor")
-                        );
+                                resultSet.getInt("idPelicula"),
+                                resultSet.getInt("idProtagonista"),
+                                resultSet.getInt("idTipoActor"));
                         peliculasProtagonistas.add(peliculaProtagonista);
                     }
                     return peliculasProtagonistas;
                 }
             }
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return new ArrayList<>();
-        
+
     }
 
+    @Override
+    public List<PeliculaProtagonista> findByPelicula(int idPelicula) {
+        List<PeliculaProtagonista> peliculasProtagonistas = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            String query = "SELECT * FROM peliculaprotagonista WHERE idPelicula = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, idPelicula);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        PeliculaProtagonista peliculaProtagonista = new PeliculaProtagonista(
+                                resultSet.getInt("idPelicula"),
+                                resultSet.getInt("idProtagonista"),
+                                resultSet.getInt("idTipoActor"));
+                        peliculasProtagonistas.add(peliculaProtagonista);
+                    }
+                    return peliculasProtagonistas;
+                }
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
 
-    
-
-    
 }

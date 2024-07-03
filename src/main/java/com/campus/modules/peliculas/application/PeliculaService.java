@@ -2,6 +2,7 @@ package com.campus.modules.peliculas.application;
 
 import java.util.List;
 
+import com.campus.ConfiguracionProyecto;
 import com.campus.modules.peliculas.adapter.out.PeliculaMySQLRepository;
 import com.campus.modules.peliculas.domain.Pelicula;
 
@@ -9,9 +10,9 @@ public class PeliculaService {
 
   private PeliculaMySQLRepository peliculaMySQLRepository;
 
-  String url = "jdbc:mysql://localhost:3306/cinecampus";
-  String user = "root";
-  String password = "123456";
+  String url = ConfiguracionProyecto.URL();
+  String user = ConfiguracionProyecto.USER();
+  String password = ConfiguracionProyecto.PASSWORD();
 
   public PeliculaService() {
     this.peliculaMySQLRepository = new PeliculaMySQLRepository(url, user, password);

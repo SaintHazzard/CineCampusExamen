@@ -2,6 +2,7 @@ package com.campus.modules.peliculaformato.application;
 
 import java.util.List;
 
+import com.campus.ConfiguracionProyecto;
 import com.campus.modules.peliculaformato.adapter.out.MySQLPeliculaFormatoRepository;
 import com.campus.modules.peliculaformato.domain.PeliculaFormato;
 import com.campus.modules.peliculaformato.infraestructure.PeliculaFormatoRepository;
@@ -10,9 +11,9 @@ public class PeliculaFormatoService {
 
   private PeliculaFormatoRepository peliculaFormatoRepository;
 
-  String url = "jdbc:mysql://localhost:3306/cinecampus";
-  String user = "root";
-  String password = "123456";
+  String url = ConfiguracionProyecto.URL();
+  String user = ConfiguracionProyecto.USER();
+  String password = ConfiguracionProyecto.PASSWORD();
 
   public PeliculaFormatoService() {
     this.peliculaFormatoRepository = new MySQLPeliculaFormatoRepository(url, user, password);
@@ -38,4 +39,8 @@ public class PeliculaFormatoService {
     return peliculaFormatoRepository.findAll();
   }
 
+  public PeliculaFormato getPeliculaFormatoById(int idPelicula, int idFormato) {
+    return peliculaFormatoRepository.findById(idPelicula, idFormato);
+
+  }
 }

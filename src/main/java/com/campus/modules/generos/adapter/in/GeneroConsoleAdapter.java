@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.campus.modules.generos.application.GeneroService;
 import com.campus.modules.generos.domain.Genero;
+
 public class GeneroConsoleAdapter {
 
     private GeneroService generoService;
@@ -12,7 +13,6 @@ public class GeneroConsoleAdapter {
     public GeneroConsoleAdapter(GeneroService generoService) {
         this.generoService = generoService;
     }
-
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
@@ -27,37 +27,51 @@ public class GeneroConsoleAdapter {
                     String descripcion = scanner.nextLine();
                     Genero genero = new Genero(descripcion);
                     generoService.saveGenero(genero);
+                    if (generoService.findByIdGenero(genero.getId()).isPresent()) {
+                        System.out.println("Genero creado exitosamente");
+                    } else {
+                        System.out.println("Genero no creado");
+                    }
                     break;
 
                 case 2:
                     System.out.print("Ingrese  ID del genero a actualizar: ");
                     int updateId = Integer.parseInt(scanner.nextLine());
                     Optional<Genero> generoEncontrado = generoService.findByIdGenero(updateId);
+                    if (!generoEncontrado.isPresent()) {
+                        System.out.println("Genero no encontrado");
+                        break;
+                    }
                     generoEncontrado.ifPresentOrElse(p -> {
                         System.out.println("Ingrese la descripcion del genero nueva");
                         String newDescription = scanner.nextLine();
                         p.setDescripcion(newDescription);
                         generoService.updateGenero(p);
+                        System.out.println("Genero actualizado exitosamente");
                     }, () -> System.out.println("genero con el id " + updateId + "no encontrado"));
                     break;
 
                 case 3:
                     System.out.print("Ingrese el Id del Genero a buscar: ");
-                    int findId = Integer.parseInt(scanner.nextLine());
+                    int findId = scanner.nextInt();
                     Optional<Genero> genero1 = generoService.findByIdGenero(findId);
                     genero1.ifPresentOrElse(
-                        p -> System.out.println(p.toString()),
-                        () -> System.out.println("Genero no encontrado")
-                    );
+                            p -> System.out.println(p.toString()),
+                            () -> System.out.println("Genero no encontrado"));
                     break;
-
                 case 4:
                     System.out.print("Ingrese el Id del genero a borrar: ");
-                    int deleteId = Integer.parseInt( scanner.nextLine());
+                    int deleteId = Integer.parseInt(scanner.nextLine());
                     generoService.deleteGenero(deleteId);
+                    if (generoService.findByIdGenero(deleteId).isPresent()) {
+                        System.out.println("Genero eliminado exitosamente");
+                    } else {
+                        System.out.println("Genero no encontrado");
+                    }
                     break;
 
                 case 5:
+                    System.out.println("Lista de generos: ");
                     generoService.findAllGenero().forEach(p -> {
                         System.out.println(p.toString());
                     });
@@ -73,7 +87,7 @@ public class GeneroConsoleAdapter {
         }
     }
 
-    private int menu(Scanner scanner){
+    private int menu(Scanner scanner) {
         System.out.println("1. Save genero");
         System.out.println("2. Update genero");
         System.out.println("3. Find By ID Genero");
@@ -87,7 +101,7 @@ public class GeneroConsoleAdapter {
         while (choice < 0 || choice > 6) {
             try {
                 choice = Integer.parseInt(scanner.nextLine());
-                if (choice > 6) {                    
+                if (choice > 6) {
                     System.out.println("Ingrese una opcion valida (0 - 5).");
                 }
             } catch (Exception e) {

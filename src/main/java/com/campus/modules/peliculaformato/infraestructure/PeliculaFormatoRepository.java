@@ -16,4 +16,6 @@ public interface PeliculaFormatoRepository {
 
   List<PeliculaFormato> findAll();
 
+  PeliculaFormato findById(int idPelicula, int idFormato);
+
 }

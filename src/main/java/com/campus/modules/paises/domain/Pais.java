@@ -5,8 +5,6 @@ public class Pais {
   private int id;
   private String descripcion;
 
-  
-
   public Pais(int id, String descripcion) {
     this.id = id;
     this.descripcion = descripcion;
@@ -34,7 +32,7 @@ public class Pais {
 
   @Override
   public String toString() {
-    return "Pais [id=" + id + ", descripcion=" + descripcion + "]";
+    return "Pais id: " + id + ", descripcion: " + descripcion + "";
   }
 
 }

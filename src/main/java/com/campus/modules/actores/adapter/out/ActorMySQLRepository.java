@@ -129,6 +129,32 @@ public class ActorMySQLRepository implements ActorRepository {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    return actores;
+  }
+
+  @Override
+  public Actor findByPeliculaId(int idPelicula) {
+    try (Connection connection = DriverManager.getConnection(url, user, password)) {
+      String query = "SELECT * FROM actor ac INNER JOIN peliculaprotagonista pp ON ac.id = pp.idProtagonista WHERE pp.idPelicula = ?";
+      try (PreparedStatement statement = connection.prepareStatement(query)) {
+        statement.setInt(1, idPelicula);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+          Actor actor = new Actor();
+          actor.setId(resultSet.getInt("id"));
+          actor.setNombre(resultSet.getString("nombre"));
+          actor.setEdad(resultSet.getInt("edad"));
+          actor.setIdGenero(resultSet.getInt("idGenero"));
+          actor.setIdNacionalidad(resultSet.getInt("idNacionalidad"));
+          return actor;
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
     return null;
   }
+
 }

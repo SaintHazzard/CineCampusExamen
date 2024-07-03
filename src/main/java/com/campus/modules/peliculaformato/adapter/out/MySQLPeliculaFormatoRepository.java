@@ -105,4 +105,24 @@ public class MySQLPeliculaFormatoRepository implements PeliculaFormatoRepository
     return peliculaFormatos;
   }
 
+  @Override
+  public PeliculaFormato findById(int idPelicula, int idFormato) {
+    try (Connection connection = DriverManager.getConnection(url, user, password)) {
+      String query = "SELECT * FROM peliculaformato WHERE idPelicula = ? AND idFormato = ?";
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setInt(1, idPelicula);
+      statement.setInt(2, idFormato);
+      statement.executeQuery();
+      try (ResultSet resultSet = statement.getResultSet()) {
+        if (resultSet.next()) {
+          return new PeliculaFormato(resultSet.getInt("idPelicula"), resultSet.getInt("idFormato"),
+              resultSet.getInt("cantidad"));
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
 }

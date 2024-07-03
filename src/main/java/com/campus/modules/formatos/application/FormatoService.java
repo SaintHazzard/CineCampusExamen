@@ -2,6 +2,7 @@ package com.campus.modules.formatos.application;
 
 import java.util.List;
 
+import com.campus.ConfiguracionProyecto;
 import com.campus.modules.formatos.adapter.out.FormatoMySQLRepository;
 import com.campus.modules.formatos.domain.Formato;
 
@@ -9,9 +10,9 @@ public class FormatoService {
 
   private FormatoMySQLRepository formatoMySQLRepository;
 
-  String url = "jdbc:mysql://localhost:3306/cinecampus";
-  String user = "root";
-  String password = "123456";
+  String url = ConfiguracionProyecto.URL();
+  String user = ConfiguracionProyecto.USER();
+  String password = ConfiguracionProyecto.PASSWORD();
 
   public FormatoService() {
     this.formatoMySQLRepository = new FormatoMySQLRepository(url, user, password);

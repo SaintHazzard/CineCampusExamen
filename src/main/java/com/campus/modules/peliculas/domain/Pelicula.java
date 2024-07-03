@@ -2,12 +2,12 @@ package com.campus.modules.peliculas.domain;
 
 public class Pelicula {
   private int id;
-  private int codInterno;
+  private String codInterno;
   private String nombre;
   private String duracion;
   private String sinopsis;
 
-  public Pelicula(int id, int codInterno, String nombre, String duracion, String sinopsis) {
+  public Pelicula(int id, String codInterno, String nombre, String duracion, String sinopsis) {
     this.id = id;
     this.codInterno = codInterno;
     this.nombre = nombre;
@@ -27,11 +27,11 @@ public class Pelicula {
     this.id = id;
   }
 
-  public int getCodInterno() {
+  public String getCodInterno() {
     return codInterno;
   }
 
-  public void setCodInterno(int codInterno) {
+  public void setCodInterno(String codInterno) {
     this.codInterno = codInterno;
   }
 
@@ -57,6 +57,12 @@ public class Pelicula {
 
   public void setSinopsis(String sinopsis) {
     this.sinopsis = sinopsis;
+  }
+
+  @Override
+  public String toString() {
+    return "Pelicula id: " + id + " - codInterno: " + codInterno + " \nnombre: " + nombre + "- duracion: " + duracion
+        + " \nsinopsis: " + sinopsis + "";
   }
 
 }

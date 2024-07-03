@@ -13,12 +13,12 @@ public class PaisConsoleAdapter {
         this.paisService = paisService;
     }
 
-
     public void start() {
         Scanner scanner = new Scanner(System.in);
         boolean flag = true;
         while (flag) {
             int choice = menu(scanner);
+            System.out.println("");
 
             switch (choice) {
                 case 1:
@@ -26,6 +26,11 @@ public class PaisConsoleAdapter {
                     String descripcion = scanner.nextLine();
                     Pais pais = new Pais(descripcion);
                     paisService.savePais(pais);
+                    if (paisService.findByIdPais(pais.getId()).isPresent()) {
+                        System.out.println("Pais creado exitosamente");
+                    } else {
+                        System.out.println("Pais no creado");
+                    }
                     break;
 
                 case 2:
@@ -37,6 +42,7 @@ public class PaisConsoleAdapter {
                         String newDescription = scanner.nextLine();
                         p.setDescripcion(newDescription);
                         paisService.updatePais(p);
+                        System.out.println("Pais actualizado exitosamente");
                     }, () -> System.out.println("pais con el id " + updateId + "no encontrado"));
                     break;
 
@@ -45,20 +51,25 @@ public class PaisConsoleAdapter {
                     int findId = Integer.parseInt(scanner.nextLine());
                     Optional<Pais> pais1 = paisService.findByIdPais(findId);
                     pais1.ifPresentOrElse(
-                        p -> System.out.println(p.toString()),
-                        () -> System.out.println("Pais no encontrado")
-                    );
+                            p -> System.out.println(p.toString()),
+                            () -> System.out.println("Pais no encontrado"));
                     break;
 
                 case 4:
                     System.out.print("Ingrese el Id del pais a borrar: ");
-                    int deleteId = Integer.parseInt( scanner.nextLine());
+                    int deleteId = Integer.parseInt(scanner.nextLine());
                     paisService.deletePais(deleteId);
+                    if (paisService.findByIdPais(deleteId).isPresent()) {
+                        System.out.println("Pais no encontrado");
+                    } else {
+                        System.out.println("Pais eliminado exitosamente");
+                    }
                     break;
 
                 case 5:
                     paisService.findAllPais().forEach(p -> {
                         System.out.println(p.toString());
+                        System.out.println("");
                     });
                     break;
 
@@ -72,7 +83,7 @@ public class PaisConsoleAdapter {
         }
     }
 
-    private int menu(Scanner scanner){
+    private int menu(Scanner scanner) {
         System.out.println("1. Save pais");
         System.out.println("2. Update pais");
         System.out.println("3. Find By ID Pais");
@@ -86,7 +97,7 @@ public class PaisConsoleAdapter {
         while (choice < 0 || choice > 6) {
             try {
                 choice = Integer.parseInt(scanner.nextLine());
-                if (choice > 6) {                    
+                if (choice > 6) {
                     System.out.println("Ingrese una opcion valida (0 - 5).");
                 }
             } catch (Exception e) {
@@ -95,5 +106,5 @@ public class PaisConsoleAdapter {
         }
         return choice;
     }
-    
+
 }
