@@ -7,6 +7,14 @@ public class Pelicula {
   private String duracion;
   private String sinopsis;
 
+  public Pelicula(int id, int codInterno, String nombre, String duracion, String sinopsis) {
+    this.id = id;
+    this.codInterno = codInterno;
+    this.nombre = nombre;
+    this.duracion = duracion;
+    this.sinopsis = sinopsis;
+  }
+
   public int getId() {
     return id;
   }

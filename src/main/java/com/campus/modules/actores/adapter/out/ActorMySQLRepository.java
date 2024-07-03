@@ -3,8 +3,11 @@ package com.campus.modules.actores.adapter.out;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.campus.modules.actores.domain.Actor;
 import com.campus.modules.actores.infraestructure.ActorRepository;
@@ -31,6 +34,10 @@ public class ActorMySQLRepository implements ActorRepository {
         statement.setInt(3, actor.getIdGenero());
         statement.setInt(4, actor.getIdNacionalidad());
         statement.executeUpdate();
+        ResultSet resultSet = statement.getGeneratedKeys();
+        if (resultSet.next()) {
+          actor.setId(resultSet.getInt(1));
+        }
       } catch (SQLException e) {
         e.printStackTrace();
       }
@@ -73,5 +80,55 @@ public class ActorMySQLRepository implements ActorRepository {
       e.printStackTrace();
     }
     return actor;
+  }
+
+  @Override
+  public Actor findById(int id) {
+    try (Connection connection = DriverManager.getConnection(url, user, password)) {
+      String query = "SELECT * FROM actores WHERE id = ?";
+      try (PreparedStatement statement = connection.prepareStatement(query)) {
+        statement.setInt(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+          Actor actor = new Actor();
+          actor.setId(resultSet.getInt("id"));
+          actor.setNombre(resultSet.getString("nombre"));
+          actor.setEdad(resultSet.getInt("edad"));
+          actor.setIdGenero(resultSet.getInt("idGenero"));
+          actor.setIdNacionalidad(resultSet.getInt("idNacionalidad"));
+          return actor;
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  @Override
+  public List<Actor> findAll() {
+    List<Actor> actores = new ArrayList<>();
+    try (Connection connection = DriverManager.getConnection(url, user, password)) {
+      String query = "SELECT * FROM actores";
+      try (PreparedStatement statement = connection.prepareStatement(query)) {
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+          Actor actor = new Actor();
+          actor.setId(resultSet.getInt("id"));
+          actor.setNombre(resultSet.getString("nombre"));
+          actor.setEdad(resultSet.getInt("edad"));
+          actor.setIdGenero(resultSet.getInt("idGenero"));
+          actor.setIdNacionalidad(resultSet.getInt("idNacionalidad"));
+          actores.add(actor);
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }
